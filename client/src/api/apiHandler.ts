@@ -1,17 +1,30 @@
 export async function apiHandler<T>(
-  url: string , 
-  options: RequestInit = {}
-): Promise<T>{
+  url: string,
+  options: RequestInit = {},
+): Promise<T> {
+  const res = await fetch(
+    `${import.meta.env.VITE_API_BASE_URL}${url}`,
+    options,
+  );
 
-  // i forgot the fetch strucrut but like we need method and then the stringified payload if any , and then content type application/json in headerrs , and yeah 
-  const res = await fetch(url, options);
+  if (!res.ok) {
+    let errorMessage = "Something went wrong.";
 
-  if( !res.ok){
-    const errorData = await res.json();
+    try {
+      const errorData = await res.json();
+      errorMessage = errorData?.message || errorMessage;
+    } catch {
+      errorMessage = res.statusText || errorMessage;
+    }
 
-    throw new Error(errorData?.message || "Something went wrong.");
+    throw new Error(errorMessage);
   }
 
-  const data =await res.json();
-  return data;
+  const text = await res.text();
+
+  if (!text) {
+    return undefined as T;
+  }
+
+  return JSON.parse(text) as T;
 }

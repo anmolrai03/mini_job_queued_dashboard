@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import type { Job } from "../types/job";
 import { getJobsAPI } from "../api/jobsApi";
 
@@ -8,27 +8,27 @@ export function useGetJobs() {
 
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchJobs = async () => {
-      setLoading(true);
-      setError(null);
+  const fetchJobs = useCallback( async () => {
+    setLoading(true);
+    setError(null);
 
-      try {
-        const jobs = await getJobsAPI();
-        setData(jobs);
-      } catch (error) {
-        if (error instanceof Error) {
-          setError(error.message);
-        } else {
-          setError("Something went wrong fetching all jobs.");
-        }
-      } finally {
-        setLoading(false);
+    try {
+      const jobs = await getJobsAPI();
+      setData(jobs);
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("Something went wrong fetching all jobs.");
       }
-    };
-
-    fetchJobs();
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  return {loading, data, error};
+  useEffect(() => {
+    void fetchJobs();
+  }, [fetchJobs]);
+
+  return { loading, data, error, refetch: fetchJobs };
 }
