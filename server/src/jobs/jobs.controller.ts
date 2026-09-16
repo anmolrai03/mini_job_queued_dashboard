@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post } from "@nestjs/common";
 import { JobsService } from "./jobs.service";
 import { CreateJobDto, UpdateJobStatusDto } from "./jobs.dto";
 
@@ -19,14 +19,14 @@ export class JobsController{
 
   @Patch("/:id/status")
   updateJob(
-    @Param("id") id: string,
+    @Param("id", new ParseUUIDPipe()) id: string,
     @Body() updateJobStatusDto: UpdateJobStatusDto
   ){
     return this.jobsService.updateJobStatus(id, updateJobStatusDto);
   }
 
   @Delete("/:id")
-  deleteJob(@Param("id") id: string){
+  deleteJob(@Param("id", new ParseUUIDPipe()) id: string){
     return this.jobsService.deleteJob(id);
   }
 }
