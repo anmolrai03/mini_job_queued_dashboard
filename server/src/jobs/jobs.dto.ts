@@ -1,6 +1,9 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsIn, IsNotEmpty, IsString } from "class-validator";
+import { JOB_STATUSES } from "./jobs.type";
+import type {  JobStatus } from "./jobs.type";
 
-export class CreateJobDTO{
+
+export class CreateJobDto{
   @IsString()
   @IsNotEmpty()
   title: string;
@@ -8,4 +11,11 @@ export class CreateJobDTO{
   @IsString()
   @IsNotEmpty()
   type: string;
+}
+
+export class UpdateJobStatusDto{
+  @IsString()
+  @IsNotEmpty()
+  @IsIn(JOB_STATUSES)
+  status: JobStatus
 }
