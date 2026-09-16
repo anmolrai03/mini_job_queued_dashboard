@@ -7,16 +7,19 @@ A simple job queue dashboard built with NestJS, TypeORM, React, and Tailwind CSS
 ### Server
 
 1. Go to the server directory:
+
    ```bash
    cd server
    ```
 
 2. Install dependencies:
+
    ```bash
    npm install
    ```
 
 3. Create or check `server/.env`:
+
    ```env
    CLIENT_URL=http://localhost:5173
    NODE_ENV=development
@@ -31,16 +34,19 @@ A simple job queue dashboard built with NestJS, TypeORM, React, and Tailwind CSS
 ### Client
 
 1. Go to the client directory:
+
    ```bash
    cd client
    ```
 
 2. Install dependencies:
+
    ```bash
    npm install
    ```
 
 3. Create or check `client/.env`:
+
    ```env
    VITE_API_BASE_URL=http://localhost:3000
    ```
@@ -79,6 +85,7 @@ A simple job queue dashboard built with NestJS, TypeORM, React, and Tailwind CSS
 ## Bonus
 
 **Concurrency Protection via Atomic Database Updates**:
+
 - **What was added**: In `JobsService.updateJobStatus`, the update query matches both the job ID and its current status (`this.jobRepository.update({ id, status: currJob.status }, { status: newStatus })`), checking `affected === 0` to return an HTTP 409 error if the state changed in the background.
 - **Why it was chosen**: In real queue systems, two users or workers could try to update the same job at the same time.
 - **How it improves the application**: It prevents race conditions and makes sure finished jobs are not accidentally overwritten.
@@ -86,4 +93,4 @@ A simple job queue dashboard built with NestJS, TypeORM, React, and Tailwind CSS
 ## Links
 
 Frontend: https://mini-job-queued-dashboard.vercel.app/  
-Backend/API: https://mini-job-queued-dashboard.onrender.com/
+API: https://mini-job-queued-dashboard.onrender.com/
