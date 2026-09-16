@@ -18,7 +18,14 @@ A full-stack job queue dashboard built with NestJS, TypeORM (SQLite), React, and
    npm install
    ```
 
-3. Run the development server:
+3. Verify or create environment variables in `server/.env`:
+
+   ```env
+   CLIENT_URL=http://localhost:5173
+   NODE_ENV=development
+   ```
+
+4. Run the development server:
    ```bash
    npm run start:dev
    ```
@@ -85,5 +92,5 @@ A full-stack job queue dashboard built with NestJS, TypeORM (SQLite), React, and
 
 ## Links
 
-Frontend: [placeholder]  
-Backend/API: [placeholder]
+Frontend: [app](https://mini-job-queued-dashboard.vercel.app/)
+Backend/API: [[api](https://mini-job-queued-dashboard.onrender.com)]
